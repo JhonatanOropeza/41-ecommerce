@@ -27,7 +27,7 @@
 
       <!-- Jumbotron Header -->
       <header class="jumbotron my-4">
-        <h1 class="display-3">Bienvenido a Spring Ecommerce 2021</h1>
+        <h1 class="display-3">Bienvenido a Spring Ecommerce 2024</h1>
         <p class="lead">Tu tienda de productos en Línea</p>
       </header>
 
@@ -41,7 +41,7 @@
 		             <p class="card-text" th:text="${p.nombre}"></p>
 		           </div>
 		           <div class="card-footer">
-		             <a href="productohome.html" class="btn btn-success">Ver producto</a>
+		             <a th:href="@{/productohome/{id} (id=${p.id} )}" class="btn btn-success">Ver producto</a>
 		           </div>
 		         </div>
 		       </div>
