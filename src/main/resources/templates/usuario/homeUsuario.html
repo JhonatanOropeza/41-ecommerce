@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
 
 <head>
@@ -20,9 +20,8 @@
 
 <body>
 
- <!-- Navigation -->
- <div th:include="administrador/template_admin.html::header"></div>
-
+  <!-- Navigation -->
+	<div th:include="usuario/templates_usuario.html::header"></div>
     <!-- Page Content -->
     <div class="container">
 
@@ -35,19 +34,17 @@
       <!-- Page Features -->
       <div class="row text-center">
 
-        <div class="col-lg-3 col-md-6 mb-4"th:each="p: ${productos}">
-          <div class="card h-100">
-            <img class="card-img-top" th:src="@{/images/{img} (img=${p.imagen})}" alt="">
-            <div class="card-body">
-              <p class="card-text" th:text="${p.nombre}"></p>
-            </div>
-            <div class="card-footer">
-              <a href="productohome.html" class="btn btn-success">Ver producto</a>
-            </div>
-          </div>
-        </div>
-
-      
+		<div class="col-lg-3 col-md-6 mb-4"th:each="p: ${productos}">
+		         <div class="card h-100">
+		           <img class="card-img-top" th:src="@{/images/{img} (img=${p.imagen})}" alt="">
+		           <div class="card-body">
+		             <p class="card-text" th:text="${p.nombre}"></p>
+		           </div>
+		           <div class="card-footer">
+		             <a href="productohome.html" class="btn btn-success">Ver producto</a>
+		           </div>
+		         </div>
+		       </div>
 
       </div>
       <!-- /.row -->
@@ -55,13 +52,11 @@
     </div>
     <!-- /.container -->
 
-	<!-- Footer -->
-	<div th:include="administrador/template_admin.html::footer"></div>
-
-
-    <!-- Bootstrap core JavaScript -->
-    <script th:src="@{vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <!-- Footer -->
+    <div th:include="usuario/templates_usuario.html::footer"></div>
+	<!-- Bootstrap core JavaScript -->
+	    <script th:src="@{vendor/jquery/jquery.min.js}"></script>
+	    <script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
   </body>
 
