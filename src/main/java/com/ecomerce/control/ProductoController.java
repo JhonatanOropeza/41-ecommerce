@@ -16,8 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ecomerce.model.Producto;
 import com.ecomerce.model.Usuario;
+import com.ecomerce.service.IUsuarioService;
 import com.ecomerce.service.ProductoService;
 import com.ecomerce.service.UploadFileService;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -28,6 +31,9 @@ public class ProductoController {
 	
 	@Autowired
 	private ProductoService productoService;
+	
+	@Autowired
+	private IUsuarioService usuarioService;
 	
 	@Autowired
 	private UploadFileService upload;
@@ -44,10 +50,18 @@ public class ProductoController {
 	}
 	
 	@PostMapping("/save")
-	public String save(Producto producto, @RequestParam("img") MultipartFile file) throws IOException {
+	public String save(
+			Producto producto, @RequestParam("img") MultipartFile file, HttpSession session
+			) throws IOException {
 		LOGGER.info("--- Info para guardar producto: {}", producto);
 		LOGGER.info("--- Datos de la imagen: {}", file);
-		Usuario u = new Usuario(1,"","","","","","","");
+		//Esta implementación sirvio para prueas antes de tener sessiones
+		//Usuario u = new Usuario(1,"","","","","","","");
+		//Haciendo uso de la sesión del usuario de manera dinámmica
+		Usuario u = usuarioService.findById(
+				Integer.parseInt(session.getAttribute("idusuario").toString())
+				).get();
+		
 		producto.setUsuario(u);
 		//Para guardar la imagen
 		//Validación cuando el producto es cargado por primera vez y nunca habŕa imagen
