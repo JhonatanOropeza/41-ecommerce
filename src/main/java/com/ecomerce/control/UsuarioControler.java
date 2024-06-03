@@ -36,12 +36,25 @@ public class UsuarioControler {
 	
 	BCryptPasswordEncoder passEncode = new BCryptPasswordEncoder();
 	
-	// /usuario/registro
+	//1.- MOSTRAR VISTAS
 	@GetMapping("/registro")
 	public String create() {
 		return "usuario/registro";
 	} 
 	
+	@GetMapping("/login")
+	public String login() {
+		return "usuario/login";
+	}
+	
+	@GetMapping("/logout")
+	public String cerrarSesion(HttpSession session) {
+		session.removeAttribute("idusuario");
+		return "redirect:/";
+	}
+	
+	//2.- OTRAS RUTAS CON PORCESOS MÁS COMPLEJOS
+	//Guardar usuario
 	@PostMapping("/save")
 	public String save(Usuario usuario) {
 		logger.info("Usuario registro: {}", usuario);
@@ -50,24 +63,21 @@ public class UsuarioControler {
 		usuarioService.save(usuario);
 		return "redirect:/";
 	}
-	
-	@GetMapping("/login")
-	public String login() {
-		return "usuario/login";
-	}
-	
+		
 	@PostMapping("/acceder")
 	public String acceder(Usuario usuario, HttpSession session) {
-		logger.info("XXXCCredenciales: {}", usuario);
+		logger.info("---1-Credenciales: {}", usuario);
 		
 		Optional<Usuario> user = usuarioService.findByEmail(usuario.getEmail());
-		//logger.info("XXXUsuario buscado en la bd: {}", user.get());
+		logger.info("---2-Usuario buscado en la bd: {}", user.get());
 		
 		if (user.isPresent()) {
 			session.setAttribute("idusuario", user.get().getId());
 			if (user.get().getTipo().equals("ADMIN")) {
+				logger.info("---3-Tipo de usuario ADMIN");
 				return "redirect:/administrador";
 			}else {
+				logger.info("---3-Tipo de usuario USER");
 				return "redirect:/";
 			}
 		}else {
@@ -101,9 +111,4 @@ public class UsuarioControler {
 		return "usuario/detallecompra";
 	}
 	
-	@GetMapping("/logout")
-	public String cerrarSesion(HttpSession session) {
-		session.removeAttribute("idusuario");
-		return "redirect:/";
-	}
 }

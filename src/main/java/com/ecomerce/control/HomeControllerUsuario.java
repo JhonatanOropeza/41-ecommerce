@@ -65,18 +65,21 @@ public class HomeControllerUsuario {
 	}
 	
 	@GetMapping("productohome/{id}")
-	public String productoHomeUsuario(@PathVariable("id") Integer id, Model model) {
+	public String productoHomeUsuario(@PathVariable("id") Integer id, Model model, HttpSession session) {
 		log.info("Id producto enviado como parámetro: {}", id);
 		Producto producto = new Producto();
 		Optional<Producto> productoOptional = productoService.get(id);
 		producto = productoOptional.get();
 		
 		model.addAttribute("producto", producto);
+		
+		//Envio de variable de sesión a la vista
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		return "usuario/productohome";
 	}
 	
-	@PostMapping("/cart")
-	public String addCart(@RequestParam("id") Integer id, @RequestParam("cantidad") Integer cantidad, Model model) {
+	@PostMapping("cart")
+	public String addCart(@RequestParam("id") Integer id, @RequestParam("cantidad") Integer cantidad, Model model, HttpSession session) {
 		DetalleOrden detalleOrden = new DetalleOrden();
 		Producto producto = new Producto();
 		double sumaTotal = 0;
@@ -106,12 +109,13 @@ public class HomeControllerUsuario {
 		orden.setTotal(sumaTotal);
 		model.addAttribute("cart", detalles);
 		model.addAttribute("orden", orden); 
-
+		//sesión
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		return "usuario/carrito";
 	}
 	//quitar un producto del carrito
-	@GetMapping("/delete/cart/{id}")
-	public String deleteProducto(@PathVariable("id") Integer id, Model model) {
+	@GetMapping("delete/cart/{id}")
+	public String deleteProducto(@PathVariable("id") Integer id, Model model, HttpSession session) {
 		List<DetalleOrden> ordenNueva = new ArrayList<DetalleOrden>();
 		for(DetalleOrden detalleOrden: detalles) {
 			if (detalleOrden.getProducto().getId()!=id) {
@@ -126,10 +130,12 @@ public class HomeControllerUsuario {
 		orden.setTotal(sumaTotal);
 		model.addAttribute("cart", detalles);
 		model.addAttribute("orden", orden);
+		//sesión
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		
 		return "usuario/carrito";
 	}
-	@GetMapping("/getCart")
+	@GetMapping("getCart")
 	public String getCart(Model model, HttpSession session) {
 		log.info("Sesión usuario /getCart : {}", session.getAttribute("idusuario"));
 		model.addAttribute("cart", detalles);
@@ -139,20 +145,21 @@ public class HomeControllerUsuario {
 		return "usuario/carrito";
 	}
 	
-	@GetMapping("/order")
+	@GetMapping("order")
 	public String order(Model model, HttpSession session) {
-		
+		log.info("---Usuario en order: {}", session.getAttribute("idusuario"));
 		Usuario usuario = usuarioService.findById(
 				Integer.parseInt(session.getAttribute("idusuario").toString())
 				).get();
 		model.addAttribute("cart", detalles);
 		model.addAttribute("orden", orden);
 		model.addAttribute("usuario", usuario);
-		
+		//sesión
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		return "usuario/resumenorden";
 	}
 	
-	@GetMapping("/saveOrder")
+	@GetMapping("saveOrder")
 	public String saveOrder(HttpSession session) {
 		Date fechaCreacion = new Date();
 		orden.setFechaCreacion(fechaCreacion);
@@ -177,10 +184,10 @@ public class HomeControllerUsuario {
 		return "redirect:/";
 	}
 	
-	@PostMapping("/search")
+	@PostMapping("search")
 	public String searchProduct(@RequestParam("nombre") String nombre, Model model) {
 		log.info("Nombre del producto: {}", nombre);
-		List<Producto> productos = productoService.findAll().stream().filter( p -> p.getNombre().toLowerCase().toUpperCase().contains(nombre)).collect(Collectors.toList());
+		List<Producto> productos = productoService.findAll().stream().filter( p -> p.getNombre().contains(nombre)).collect(Collectors.toList());
 		
 		model.addAttribute("productos", productos);
 		

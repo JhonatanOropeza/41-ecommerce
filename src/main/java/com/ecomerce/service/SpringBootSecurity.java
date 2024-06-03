@@ -22,13 +22,14 @@ public class SpringBootSecurity {
 	
 	@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests((authz) -> authz
-                .requestMatchers("/administrador/**").hasAnyRole("ADMIN")
-                .requestMatchers("/productos/**").hasAnyRole("ADMIN")
-                .requestMatchers("/**").permitAll() 
-            );
-        return http.build();
+        return http
+        	.csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(authz -> {
+            	authz.requestMatchers("/administrador/**").hasRole("ADMIN");
+            	authz.requestMatchers("/productos/**").hasRole("ADMIN");
+            	authz.requestMatchers("/**").permitAll();
+            }
+            ).build();
     }
 
 	@Bean
