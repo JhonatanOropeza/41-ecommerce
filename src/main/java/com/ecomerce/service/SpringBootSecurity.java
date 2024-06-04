@@ -23,10 +23,10 @@ public class SpringBootSecurity {
 	@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-        	.csrf(csrf -> csrf.disable())
+        	//.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> {
-            	authz.requestMatchers("/administrador/**").hasRole("ADMIN");
-            	authz.requestMatchers("/productos/**").hasRole("ADMIN");
+            	authz.requestMatchers(HttpMethod.POST,"/administrador/**").hasAnyRole("ADMIN");
+            	//authz.requestMatchers("/productos/**").hasRole("ADMIN");
             	authz.requestMatchers("/**").permitAll();
             }
             ).build();
