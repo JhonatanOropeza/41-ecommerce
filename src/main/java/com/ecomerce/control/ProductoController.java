@@ -114,8 +114,10 @@ public class ProductoController {
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable("id") Integer id) {
 		//1. Eliminación de la imagen
+		LOGGER.info("--- 1.- Id del usuario: {}", id);
 		Producto p = new Producto();
 		p = productoService.get(id).get();
+		LOGGER.info("--- 2.- Producto a eliminar: {}", p);
 		//1.1 Eliminación de la imagen cuando este por defecto (default.jpg)
 		if (!p.getImagen().equals("default.jpg")) {
 			upload.deleteImagen(p.getImagen());

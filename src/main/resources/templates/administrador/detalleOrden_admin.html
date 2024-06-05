@@ -11,10 +11,10 @@
   <title>Spring eCommerce</title>
 
 
-  <!-- Bootstrap core CSS -->
-       <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-       <!-- Custom styles for this template -->
-       <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+	<!-- Bootstrap core CSS -->
+  	<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
 
 </head>
 
@@ -24,7 +24,7 @@
   <div th:include="administrador/template_admin.html::header"></div>
 
     <!-- Page Content -->
-    <div class="container">
+    <div class="container" style="margin-bottom:60px;">
 
 
       <!-- Page Heading/Breadcrumbs -->
@@ -33,7 +33,7 @@
       </h1>
 
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/administrador}">Home</a></li>
         <li class="breadcrumb-item"><a href="compras.html">Compras</a></li>
         <li class="breadcrumb-item active">Detalle de Compra</li>
       </ol>

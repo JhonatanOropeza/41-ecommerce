@@ -24,7 +24,7 @@
   <div th:include="administrador/template_admin.html::header"></div>
 
     <!-- Page Content -->
-    <div class="container">
+    <div class="container" style="margin-bottom:60px;">
 
 
       <!-- Page Heading/Breadcrumbs -->
@@ -33,7 +33,7 @@
       </h1>
 
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/administrador}">Home</a></li>
         <li class="breadcrumb-item active">Compras</li>
       </ol>
 

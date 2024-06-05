@@ -29,7 +29,13 @@ public class SpringBootSecurity {
             	//authz.requestMatchers("/productos/**").hasRole("ADMIN");
             	authz.requestMatchers("/**").permitAll();
             }
-            ).build();
+            )
+            .formLogin(formLogin ->
+        		formLogin
+        		.loginPage("/usuario/login")
+        		.permitAll()
+        	)
+            .build();
     }
 
 	@Bean
